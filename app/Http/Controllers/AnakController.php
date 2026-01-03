@@ -12,8 +12,10 @@ class AnakController extends Controller
         $search = $request->search;
 
         $anaks = Anak::when($search, function ($query) use ($search) {
-            $query->where('nama', 'like', "%{$search}%");
-        })->paginate(5);
+                $query->where('nama', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(5);
 
         return view('anak.index', compact('anaks', 'search'));
     }
@@ -32,7 +34,13 @@ class AnakController extends Controller
             'nama_ibu' => 'required',
         ]);
 
-        Anak::create($request->all());
+        Anak::create([
+            'nama' => $request->nama,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'nama_ibu' => $request->nama_ibu,
+            'user_id' => auth()->id(), // 🔑 INI KUNCI DASHBOARD ORTU
+        ]);
 
         return redirect()->route('anak.index')
             ->with('success', 'Data anak berhasil ditambahkan');
@@ -52,7 +60,12 @@ class AnakController extends Controller
             'nama_ibu' => 'required',
         ]);
 
-        $anak->update($request->all());
+        $anak->update([
+            'nama' => $request->nama,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'nama_ibu' => $request->nama_ibu,
+        ]);
 
         return redirect()->route('anak.index')
             ->with('success', 'Data anak berhasil diperbarui');

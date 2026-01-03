@@ -23,5 +23,9 @@ class Anak extends Model
     {
         return $this->hasMany(Penimbangan::class);
     }
+    public function orangTua()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
 
