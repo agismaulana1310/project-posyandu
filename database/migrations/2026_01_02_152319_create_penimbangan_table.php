@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
 {
-    Schema::create('penimbangans', function (Blueprint $table) {
+    Schema::create('penimbangan', function (Blueprint $table) {
         $table->id();
-        $table->foreignId('anak_id')->constrained('anaks')->cascadeOnDelete();
+        $table->foreignId('anak_id')->constrained('anak')->cascadeOnDelete();
         $table->date('tanggal');
         $table->decimal('berat_badan', 5, 2); // kg
         $table->decimal('tinggi_badan', 5, 2); // cm
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('penimbangans');
+        Schema::dropIfExists('penimbangan');
     }
 };

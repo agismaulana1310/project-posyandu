@@ -5,6 +5,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AnakController;
 use App\Http\Controllers\ImunisasiController;
 use App\Http\Controllers\PenimbanganController;
+use App\Http\Controllers\DashboardOrtuController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +59,11 @@ Route::middleware(['auth','role:admin,kader'])->group(function () {
     Route::resource('imunisasi', ImunisasiController::class);
     Route::resource('penimbangan', PenimbanganController::class);
 });
+
+Route::middleware(['auth','role:ortu'])->get('/ortu/dashboard',
+    [DashboardOrtuController::class, 'index']
+)->name('ortu.dashboard');
+
 
 /*
 |--------------------------------------------------------------------------

@@ -1,119 +1,167 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta charset="UTF-8">
     <title>Posyandu Digital</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="antialiased">
+<body class="bg-green-50">
 
-    <!-- Navbar -->
-    <nav class="bg-white shadow">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold text-green-600">
-                Posyandu Digital
+<!-- NAVBAR -->
+<header class="bg-white shadow">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <span class="text-2xl font-bold text-green-700">Posyandu</span>
+            <span class="text-sm text-gray-500">Digital</span>
+        </div>
+
+        <nav class="flex items-center gap-4 text-sm font-medium">
+            <a href="/" class="text-green-700">Beranda</a>
+
+            @auth
+            <form method="POST" action="{{ route('logout') }}" class="inline">
+                @csrf
+                <button type="submit" class="text-gray-600 hover:text-green-600">
+                Logout
+                </button>
+            </form>
+            @else
+            <a href="{{ route('login') }}" class="text-gray-600 hover:text-green-600">
+                Login
+            </a>
+            <a href="{{ route('register') }}"
+               class="bg-green-600 text-white px-4 py-2 rounded-lg">
+                Daftar
+            </a>
+            @endauth
+        </nav>
+    </div>
+</header>
+
+<!-- HERO -->
+<section class="bg-gradient-to-r from-green-100 to-green-50 py-20">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+
+        <div>
+            <h1 class="text-3xl md:text-4xl font-bold text-green-800 mb-4">
+                Selamat Datang di Posyandu Digital
             </h1>
 
-            <div class="space-x-4">
-                @auth
-                    @switch(auth()->user()->role)
-                        @case('admin')
-                            <a href="{{ route('admin.dashboard') }}"
-                               class="text-green-600 font-semibold hover:text-green-700">
-                                Dashboard
-                            </a>
-                            @break
-                        @case('kader')
-                            <a href="{{ route('kader.dashboard') }}"
-                               class="text-green-600 font-semibold hover:text-green-700">
-                                Dashboard
-                            </a>
-                            @break
-                        @default
-                            <a href="{{ route('ortu.dashboard') }}"
-                               class="text-green-600 font-semibold hover:text-green-700">
-                                Dashboard
-                            </a>
-                    @endswitch
-                    
-                    <form method="POST" action="{{ route('logout') }}" class="inline">
-                        @csrf
-                        <button type="submit" class="text-gray-600 hover:text-green-600">
-                            Logout
-                        </button>
-                    </form>
-                @else
-                    <a href="{{ route('login') }}"
-                       class="text-gray-600 hover:text-green-600">
-                        Login
-                    </a>
-                    <a href="{{ route('register') }}"
-                       class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-                        Register
-                    </a>
-                @endauth
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="bg-gradient-to-br from-green-100 to-blue-100 py-24">
-        <div class="max-w-4xl mx-auto text-center px-6">
-            <h2 class="text-4xl font-extrabold text-gray-800 mb-4">
-                Sistem Informasi Posyandu
-            </h2>
-
-            <p class="text-gray-600 text-lg mb-8">
-                Kelola data anak, imunisasi, dan penimbangan secara digital
-                untuk pelayanan Posyandu yang lebih efektif dan transparan.
+            <p class="text-gray-700 text-lg mb-6">
+                Posyandu Digital membantu orang tua dan kader
+                memantau tumbuh kembang anak secara mudah,
+                aman, dan terintegrasi.
             </p>
 
-            @guest
-                <div class="flex justify-center gap-4">
-                    <a href="{{ route('login') }}"
-                       class="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition">
-                        Login
-                    </a>
-                    <a href="{{ route('register') }}"
-                       class="bg-white border border-green-600 text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-green-50 transition">
-                        Register
-                    </a>
-                </div>
-            @endguest
-        </div>
-    </section>
-
-    <!-- Feature Section -->
-    <section class="py-16 bg-white">
-        <div class="max-w-6xl mx-auto px-6">
-            <h3 class="text-2xl font-bold text-center text-gray-800 mb-12">
-                Fitur Utama Sistem
-            </h3>
-
-            <div class="grid md:grid-cols-3 gap-8">
-                @foreach([
-                    ['title' => 'Data Anak', 'desc' => 'Pengelolaan data anak secara terpusat dan aman.'],
-                    ['title' => 'Imunisasi', 'desc' => 'Pencatatan riwayat imunisasi anak secara sistematis.'],
-                    ['title' => 'Penimbangan', 'desc' => 'Monitoring pertumbuhan anak melalui data penimbangan.'],
-                ] as $feature)
-                    <div class="text-center p-6 border rounded-lg hover:shadow-lg transition">
-                        <h4 class="font-semibold text-lg mb-2">{{ $feature['title'] }}</h4>
-                        <p class="text-gray-600 text-sm">{{ $feature['desc'] }}</p>
-                    </div>
-                @endforeach
+            <div class="flex gap-4">
+                <a href="{{ route('login') }}"
+                   class="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold">
+                    Masuk
+                </a>
+                <a href="{{ route('register') }}"
+                   class="border border-green-600 text-green-600 px-6 py-3 rounded-lg font-semibold">
+                    Daftar Akun
+                </a>
             </div>
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="bg-gray-100 py-6">
-        <div class="text-center text-gray-600 text-sm">
-            © {{ date('Y') }} Sistem Informasi Posyandu. All rights reserved.
+        <div class="hidden md:block">
+            <img src="https://img.freepik.com/free-vector/mother-holding-baby-illustration_74855-14411.jpg"
+                 alt="Posyandu"
+                 class="rounded-xl shadow">
         </div>
-    </footer>
+
+    </div>
+</section>
+
+<!-- LAYANAN POSYANDU -->
+<section class="max-w-7xl mx-auto px-6 py-16">
+    <h2 class="text-2xl font-bold text-center text-green-800 mb-10">
+        Layanan Posyandu
+    </h2>
+
+    <div class="grid md:grid-cols-4 gap-6 text-center">
+
+        <div class="bg-white p-6 rounded-xl shadow">
+            <p class="text-4xl mb-2">👶</p>
+            <h3 class="font-semibold mb-2">Data Anak</h3>
+            <p class="text-sm text-gray-600">
+                Pendataan anak secara terpusat dan aman.
+            </p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow">
+            <p class="text-4xl mb-2">⚖️</p>
+            <h3 class="font-semibold mb-2">Penimbangan</h3>
+            <p class="text-sm text-gray-600">
+                Pemantauan berat dan tinggi badan anak.
+            </p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow">
+            <p class="text-4xl mb-2">💉</p>
+            <h3 class="font-semibold mb-2">Imunisasi</h3>
+            <p class="text-sm text-gray-600">
+                Catatan imunisasi sesuai jadwal Posyandu.
+            </p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow">
+            <p class="text-4xl mb-2">📊</p>
+            <h3 class="font-semibold mb-2">Monitoring</h3>
+            <p class="text-sm text-gray-600">
+                Grafik pertumbuhan anak secara visual.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<!-- EDUKASI -->
+<section class="bg-green-100 py-14">
+    <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-xl font-bold text-green-800 mb-6">
+            Edukasi Kesehatan Anak
+        </h2>
+
+        <div class="grid md:grid-cols-3 gap-6">
+
+            <div class="bg-white p-6 rounded shadow">
+                <h3 class="font-semibold mb-2">🍎 Gizi Seimbang</h3>
+                <p class="text-sm text-gray-600">
+                    Pastikan anak mendapat asupan gizi yang cukup
+                    untuk mendukung pertumbuhan optimal.
+                </p>
+            </div>
+
+            <div class="bg-white p-6 rounded shadow">
+                <h3 class="font-semibold mb-2">🛁 Kebersihan</h3>
+                <p class="text-sm text-gray-600">
+                    Jaga kebersihan anak dan lingkungan
+                    untuk mencegah penyakit.
+                </p>
+            </div>
+
+            <div class="bg-white p-6 rounded shadow">
+                <h3 class="font-semibold mb-2">💉 Imunisasi</h3>
+                <p class="text-sm text-gray-600">
+                    Lengkapi imunisasi anak sesuai jadwal
+                    yang dianjurkan Posyandu.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-green-700 py-6">
+    <div class="text-center text-sm text-white">
+        © {{ date('Y') }} Posyandu Digital — Untuk Ibu & Anak
+    </div>
+</footer>
 
 </body>
 </html>

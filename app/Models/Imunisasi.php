@@ -2,20 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Anak;
 
 class Imunisasi extends Model
 {
-    use HasFactory;
+    // Nama tabel (karena tidak pakai plural default Laravel)
+    protected $table = 'imunisasi';
 
+    // Kolom yang boleh diisi mass-assignment
     protected $fillable = [
         'anak_id',
         'jenis_imunisasi',
         'tanggal',
-        'keterangan',
     ];
 
+    /**
+     * Relasi: Imunisasi milik satu Anak
+     */
     public function anak()
     {
         return $this->belongsTo(Anak::class);
